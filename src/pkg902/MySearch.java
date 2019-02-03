@@ -15,8 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -52,7 +54,7 @@ public class MySearch {
                 JFrame frame = new JFrame("Αναζήτηση 902");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setPreferredSize(new Dimension(800,800));  //makes my jFrame bigger when app opens
-                frame.setResizable(false);
+                frame.setResizable(false); //it doesn't let the user changes the size of the frame.Only minimize and close!
                 frame.add(new TestPane());
                 frame.pack();
                 frame.setLocationRelativeTo(null);
@@ -78,7 +80,7 @@ public class MySearch {
             gbc.gridx = 0;
             gbc.gridy = 0;
             gbc.insets = new Insets(2, 2, 2, 2);
-            searchPane.add(new JLabel("Find: "), gbc);
+            searchPane.add(new JLabel("Εύρεση Ταχυδρομείων: "), gbc);
             gbc.gridx++;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.weightx = 1;
@@ -93,7 +95,7 @@ public class MySearch {
             gbc.gridx++;
             gbc.fill = GridBagConstraints.NONE;
             gbc.weightx = 0;
-            search = new JButton("Search");
+            search = new JButton("Αναζήτηση");
             searchPane.add(search, gbc);
 
             add(searchPane, BorderLayout.NORTH);
@@ -118,7 +120,7 @@ public class MySearch {
 
                 String searchText = findText.getText();
                
-                try (BufferedReader reader = new BufferedReader(new FileReader(new File("taxudromeia.txt")))) {
+                try (BufferedReader reader = new BufferedReader( new InputStreamReader(new FileInputStream("taxudromeia.txt"),"UTF-8"))) {
 
                     String text = null;
                     while ((text = reader.readLine()) != null) {
