@@ -6,6 +6,7 @@
 package pkg902;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -66,6 +67,7 @@ public class MySearch {
 
         public TestPane() {
             
+            DocumentFilter filter = new UppercaseDocumentFilter();
                 
             setLayout(new BorderLayout());
             JPanel searchPane = new JPanel(new GridBagLayout());
@@ -78,8 +80,13 @@ public class MySearch {
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.weightx = 1;
             findText = new JTextField(20);
+            
+            //FORCES STRING TO BE UPPERCASE
+            findText.setPreferredSize(new Dimension(100,20));
+            ((AbstractDocument) findText.getDocument()).setDocumentFilter(filter);
+            //ENDOF FORCES STRING TO BE UPPERCASE
+
             searchPane.add(findText, gbc);
-    
             gbc.gridx++;
             gbc.fill = GridBagConstraints.NONE;
             gbc.weightx = 0;
@@ -129,5 +136,21 @@ public class MySearch {
             }
         }
     }
+    
+    
+    //FORCES STRING TO BE UPPERCASE
+class UppercaseDocumentFilter extends DocumentFilter {
+    public void insertString(DocumentFilter.FilterBypass fb, int offset,
+            String text, AttributeSet attr) throws BadLocationException {
+
+        fb.insertString(offset, text.toUpperCase(), attr);
+    }
+
+    public void replace(DocumentFilter.FilterBypass fb, int offset, int length,
+            String text, AttributeSet attrs) throws BadLocationException {
+
+        fb.replace(offset, length, text.toUpperCase(), attrs);
+    }
+}
     
 }
